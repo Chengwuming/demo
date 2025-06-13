@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.7.5)  13 JUN 2025 21:10
+This is XeTeX, Version 3.141592653-2.6-0.999996 (TeX Live 2024) (preloaded format=xelatex 2024.7.5)  13 JUN 2025 23:00
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -770,8 +770,7 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box74
 \@float@everytoks=\toks46
 \@floatcapt=\box75
-)
-No file "Jordan (1)".aux.
+) (./Jordan (1).aux)
 \openout1 = `"Jordan (1).aux"'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 86.
@@ -794,6 +793,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 86.
 LaTeX Font Info:    ... okay on input line 86.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 86.
 LaTeX Font Info:    ... okay on input line 86.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
 *geometry* verbose mode - [ preamble ] result:
@@ -829,15 +829,13 @@ LaTeX Font Info:    ... okay on input line 86.
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package hyperref Info: Link coloring ON on input line 86.
+(./Jordan (1).out) (./Jordan (1).out)
 \@outlinefile=\write4
 \openout4 = `"Jordan (1).out"'.
 
-
-Package hyperref Warning: Rerun to get /PageLabels entry.
-
 \c@lstlisting=\count361
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 88.
-(d:/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
+ (d:/texlive/2024/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 88.
@@ -892,10 +890,10 @@ Package rerunfilecheck Info: File `"Jordan (1)".out' has not changed.
 (rerunfilecheck)             Checksum: <no file>.
  ) 
 Here is how much of TeX's memory you used:
- 32061 strings out of 476720
- 683229 string characters out of 5801445
+ 32069 strings out of 476720
+ 683373 string characters out of 5801445
  1938842 words of memory out of 5000000
- 53543 multiletter control sequences out of 15000+600000
+ 53545 multiletter control sequences out of 15000+600000
  585578 words of font info for 102 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  117i,15n,120p,545b,978s stack positions out of 10000i,1000n,20000p,200000b,200000s
