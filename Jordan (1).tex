@@ -1,0 +1,347 @@
+\documentclass[12pt, a4paper,oneside, UTF8]{ctexart}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}   % 数学公式
+\usepackage{amsthm}    % 定理环境
+\usepackage{amssymb}   % 更多公式符号
+\usepackage{graphicx}  % 插图
+\usepackage{mathrsfs}  % 数学字体
+\usepackage{enumitem}  % 列表
+\usepackage{geometry}  % 页面调整
+\usepackage{physics}
+\usepackage[colorlinks,linkcolor=black]{hyperref}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+\usepackage{braket}
+\usepackage{quiver}
+\usepackage{listings}
+\graphicspath{ {flg/},{../flg/}, {config/}, {../config/} }  % 配置图形文件检索目录
+\linespread{1.5} % 行高
+
+% 页码设置
+\geometry{top=25.4mm,bottom=25.4mm,left=20mm,right=20mm,headheight=2.17cm,headsep=4mm,footskip=12mm}
+
+% 设置列表环境的上下间距
+\setenumerate[1]{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setitemize[1]{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+\setdescription{itemsep=5pt,partopsep=0pt,parsep=\parskip,topsep=5pt}
+
+% 定理环境
+% ########## 定理环境 start ####################################
+\theoremstyle{definition}
+\newtheorem{defn}{\indent 定义}
+
+\newtheorem{lemma}{\indent 引理}    % 引理 定理 推论 准则 共用一个编号计数
+\newtheorem{thm}[lemma]{\indent 定理}
+\newtheorem{corollary}[lemma]{\indent 推论}
+\newtheorem{criterion}[lemma]{\indent 准则}
+
+\newtheorem{proposition}[lemma]{\indent 命题}
+\theoremstyle{plain}
+\newtheorem{example}{\indent {例}} % 绿色文字的 例 ，不需要就去除\color{SeaGreen}{}
+\newtheorem*{rmk}{\indent 注}
+\newtheorem*{practice}{\indent 练习}
+
+% 两种方式定义中文的 证明 和 解 的环境：
+% 缺点：\qedhere 命令将会失效【技术有限，暂时无法解决】
+\renewenvironment{proof}{\par\textbf{证明.}\;}{\qed\par}
+\newenvironment{solution}{\par{\textbf{解.}}\;}{\qed\par}
+
+% 缺点：\bf 是过时命令，可以用 textb f等替代，但编译会有关于字体的警告，不过不影响使用【技术有限，暂时无法解决】
+%\renewcommand{\proofname}{\indent\bf 证明}
+%\newenvironment{solution}{\begin{proof}[\indent\bf 解]}{\end{proof}}
+% ######### 定理环境 end  #####################################
+
+% ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ 以下是自定义的命令  ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+
+% 用于调整表格的高度  使用 \hline\xrowht{25pt}
+\newcommand{\xrowht}[2][0]{\addstackgap[.5\dimexpr#2\relax]{\vphantom{#1}}}
+
+% 表格环境内长内容换行
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+
+% 使用\linespread{1.5} 之后 cases 环境的行高也会改变，重新定义一个 ca 环境可以自动控制 cases 环境行高
+\newenvironment{ca}[1][1]{\linespread{#1} \selectfont \begin{cases}}{\end{cases}}
+% 和上面一样
+\newenvironment{vx}[1][1]{\linespread{#1} \selectfont \begin{vmatrix}}{\end{vmatrix}}
+
+\def\d{\textup{d}} % 直立体 d 用于微分符号 dx
+\def\R{\mathbb{R}} % 实数域
+\newcommand{\bs}[1]{\boldsymbol{#1}}    % 加粗，常用于向量
+\newcommand{\ora}[1]{\overrightarrow{#1}} % 向量
+
+% 数学 平行 符号
+\newcommand{\pll}{\kern 0.56em/\kern -0.8em /\kern 0.56em}
+
+% 用于空行\myspace{1} 表示空一行 填 2 表示空两行  
+\newcommand{\myspace}[1]{\par\vspace{#1\baselineskip}}
+\author{chengd23 }
+\date{November 2023}
+\usepackage{titlesec} 
+\usepackage{graphicx}
+\usepackage{float}
+
+\title{\textbf{Jordan标准型}}
+\author{程笛}
+\date{2024.7.8}
+\begin{document}
+\maketitle
+回顾线性空间的定义:
+线性空间 $V$是一个配有数乘运算的加法Abel群:
+\[
+\mathbb{K} \times V \to V, \ (k,v) \mapsto kv
+\] 
+并且数乘运算满足一些相容条件.我们推广线性空间的定义, 我们称一个类似上述的集合为模, 如果将要求的 $\mathbb{K}$换为环.(以下环都指含单位元的交换环)
+
+\begin{defn}
+    环 $R$上的集合 $M$被称为 $R$-模,如果满足
+    \begin{enumerate}
+        \item 存在加法运算,是关于加法运算的Abel群
+        \item 数乘运算
+        \[
+        R \times M \to M, \ (r,m) \mapsto rm
+        \]
+    \begin{itemize}
+        \item $(r+s)m = rm+sm, \forall r,s \in R, m \in M$
+        \item $(rs)m = r(sm), \forall r,s \in R, m \in M$
+        \item $r(m+n)= rm+rn,\forall r \in R, m,n \in M$
+        \item $1m = m, \forall m \in M$
+    \end{itemize}
+    \end{enumerate}
+\end{defn}
+
+如果 $R$也是域, 那么 $R$-模就是 $R$线性空间.
+
+
+模 $M$的子模 $N$指一个子集, 其满足对数乘封闭.即 $RN \subseteq N$.
+
+\begin{example}
+    环 $R$本身可以看为 $R$-模,此时其上的子模就是理想.
+\end{example}
+    \begin{example}
+    $R$-模 $M$,$I$是 $R$的理想,则
+    \[
+    IM :=\{ x_1e_1+ \cdots +x_ne_{n}\, ;\, x_{i}\in I, e_{i}\in M ,n\in \mathbb{N}\}
+    \]
+    是子模.
+\end{example}
+
+
+类似线性空间, 我们也可以定义模同态和商模.
+
+
+\begin{thm}
+    $M,N$是 $R$-模,对于同态
+    \[
+    \varphi:M \to N
+    \]
+    则 $\operatorname{ker}\varphi$是 $M$的子模, $\operatorname{Im}\varphi$也是 $R$-模.
+    有诱导同构
+    \[
+    M / \operatorname{ker}\varphi \cong \operatorname{Im}\varphi
+    \]
+\end{thm}
+\begin{proof}
+    $$m \in \operatorname{ker}\varphi \iff \varphi(m)= 0 \iff \varphi(rm) = r\varphi(m) = 0, \forall r \in R \iff \operatorname{ker}\varphi\text{是子模}$$
+    $$n \in \operatorname{Im}\varphi \iff \exists m \in M, \varphi(m) = n $$从而 $rn = \varphi(rm)\in \operatorname{Im}\varphi$
+
+    同构证明: 映射
+    \[
+    [m] = m+\operatorname{ker}\varphi \mapsto \varphi(m)
+    \]显然是满射($m$原像的所有元素形成等价类 $[m]$),又 $\varphi(m) = 0 \iff m \in \operatorname{ker}\varphi$,因此 $[m] = [0]$,从而是单射, 从而是同构.
+\end{proof}
+
+类似线性空间, 在模上我们可以试着找"基", 方便起见, 此后我们只谈论环 $R$是主理想整环,且 $M$的基向量有限的情况.
+
+\begin{defn}
+     $R$-模 $M$是自由的, 如果存在一个有限子集 $\{ e_1, \ldots ,e_{m} \}$, $M$中的任何一个向量均可被该子集的元素唯一地线性表出.这一子集即为 $M$的一个基, 称 $M$的秩(rank)为 $m$.
+\end{defn}
+
+ \begin{example}
+    有限维线性空间是自由的.
+ \end{example}
+
+ \begin{defn}
+    $R$-模 $M$称为有限生成的, 如果存在有限子集 $W = \{ w_1, \ldots ,w_{m} \}$,它们的线性组合生成整个 $M$.
+ \end{defn}
+\begin{example}
+    整数环 $\mathbb{Z}$视为 $\mathbb{Z}$-模是由 $1$有限生成的, $\mathbb{Z}/ \braket{n}$视为 $\mathbb{Z}$模也是有限生成的, 但不是自由的.
+\end{example}
+ 
+
+对于自由模 $M$, 上述$W$生成 $M$, 则有同态
+
+    $$\pi _{w} : R^{m} \to M, \ \ (x_{1},x_{2},\dots,x_{m}) \mapsto x_{1}w_{1}+x_{2}w_{2}+\dots x_{m}w_{m}$$
+    
+    是满射.从而有 $R^{m}/ \operatorname{ker}\pi_{w} \cong M$.特别的,如果是单射,那么 $R^{m} \cong M$
+
+
+
+\begin{defn}
+    通过对有限个 $R$-模 $M_{i}$的直积定义运算
+    \[
+    (v_1, \ldots ,v_{m})+(w_1, \ldots ,w_{m}) =(v_1+w_1, \ldots , v_{m}+w_{m}), v_{i},w_i\in M_i
+    \]
+    由此定义了模直和,对应线性空间的外直和.
+
+    对于子模的直和, 则与线性空间子空间直和一致, 即
+    $$(v_1, \ldots ,v_{m}) \mapsto v_1+ \cdots +v_{m}$$
+    是同构映射.由此, 上述两种定义直和是同构的.
+\end{defn}
+
+如果上述的模都是自由模, 那么它们的基共同组成 $M$的基, 这与线性空间版本并无二致.从而我们可以通过直和分解来研究模的结构, 
+\begin{thm}
+    主理想整环上的有限生成自由模的子模也是有限生成自由模
+\end{thm}
+\begin{proof}
+
+    $R$ 是主理想整环,  $M$ 是 $\mathrm{rank}(M) = n$ 的有限生成 $R$ -模,  存在基 $(e_{1},\dots,e_{n})$ 用归纳法: $n =1$ 时,  $M \cong R$, 其上的子模就是 $R$ 的理想, 记 $N = RI$ . 由于 $R$ 是主理想整环, 故 $I =ie_{1}$, 得 $N = R(ie_{1})$, 故 $N$ 是以 $ie_{1}$ 为基的自由模.
+假设对秩小于 $n$ 的自由模上述结果都成立, 考虑秩 $n$ 的情况,  
+\vspace*{2em}
+% https://q.uiver.app/#q=WzAsNSxbMSwwLCJNIl0sWzAsMCwiTiJdLFswLDEsIk4vTlxcY2FwIFJlXzEiXSxbMSwxLCJNL1JlXzEgIl0sWzIsMSwiUmVfMiBcXG9wbHVzXFxjZG90c1xcb3BsdXMgUmVfbiJdLFsxLDBdLFsxLDJdLFswLDNdLFsyLDNdLFszLDQsIlxcY29uZyIsMV1d
+\[\begin{tikzcd}
+	N & M \\
+	{N/N\cap Re_1} & {M/Re_1 } & {Re_2 \oplus\cdots\oplus Re_n}
+	\arrow[from=1-1, to=1-2]
+	\arrow[from=1-1, to=2-1]
+	\arrow[from=1-2, to=2-2]
+	\arrow[from=2-1, to=2-2]
+	\arrow["\cong"{description}, from=2-2, to=2-3]
+\end{tikzcd}\]
+
+若 $N \cap R e_{1} =\{ 0 \}$, 则由归纳假设,  $N = N/ R e_{1}\cap N$ 是有限生成自由模.
+
+若 $N \cap R e_{1} \neq\{ 0 \}$, 由于 $N \cap R e_{1} \subset R e_{1}$, 由归纳假设, $N \cap R e_{1}=Ri e_{1}, \ i \in R$, $N / N \cap R e_{1}$ 也是有限生成自由模, 其基 $\{ [u_{1}],\dots,[u_{k}] \}$, 对于任意的 $w \in N$,  $[w] \in N / N \cap R e_{1}$,
+$$[w] =r_{1}[u_{1}]+\dots +r_{k}[u_{k}]$$
+即
+$$w -r_{1}u_{1}-\dots-r_{k}w_{k}\in R i e_{1}$$
+从而 $w$ 被 $\{ u_{1},\dots,u_{k},e_{1} \}$ 线性表出, 这些显然线性无关, 从而是 $N$ 的基, 即 $N$ 是有限生成的自由模.  
+\end{proof}
+
+
+我们再引入最后一个引理,然后来到这次的核心定理.
+
+\begin{lemma}
+    主理想整环 $R$上的有限生成自由模 $M$,设 $N$是其子模, 则 $M$存在恰当的基 $(u_1, \ldots ,u_{n})$和 $R$中元素 $a_{i}, 1\leq i\leq m$ 满足
+    $$a_{1}|a_{2}|\dots|a_{m}$$ 使得 $(a_1u_1, \ldots ,a_{m}u_{m})$为 $N$ 的基.
+\end{lemma}
+\begin{proof}
+    设 $M$的基 $(e_1, \ldots ,e_{n})$, 以及生成$N$的向量组 $(v_1, \ldots ,v_{k})$,有过渡矩阵 $C\in  M_{n\times k}(R) $:
+    \[
+    (v_1, \ldots ,v_{k}) = (e_1, \ldots ,e_{n})C
+    \]
+    由线性代数的知识, 对于矩阵 $C\in M_{n\times k}(R)$,存在可逆矩阵 $P \in GL_{n}(R), Q \in GL_{k}(R)$ ,使得
+    \[
+    PCQ = \begin{pmatrix} a_1  &  &  &0  \\  & \ddots &  &  \\  &  & a_{m} &  \\ 0 &  &  & 0 \\\end{pmatrix} =:D
+    \]
+    其中 $a_{i}$满足定理要求. 从而$$(v_1, \ldots ,v_{k})Q =(e_1, \ldots ,e_{n})P^{-1} D$$
+    可知 在新基 $(e_1, \ldots ,e_{n})P^{-1} =(u_1, \ldots ,u_{n})$下有$N$的基(容易验证是线性无关的) $$(v_1, \ldots ,v_{k})Q = (a_1u_1, \ldots ,a_{m}u_{m})$$ 从而得证.
+
+    由证明过程知上述 $a_{i}$在相差一个可逆元的情况下是唯一的. 为后续简便起见, 特别的,我们考虑 $R = \mathbb{K}[x]$,那么这些 $a_{i}$就是首项相差一个系数下唯一的多项式.
+\end{proof}
+\begin{thm}
+    不变因子分解:  存在 $R^{n}$ 中的基 $u_{1},\dots,u_{n}$, 和 $a_{i}, 1\leq i\leq m$ 满足
+ $$a_{1}|a_{2}|\dots|a_{m}$$ 使得$(a_1u_1, \ldots ,a_{m}u_{m})$为 $\mathrm{ker}\pi _{w}$ 的基, 从而分解 $M = R^{n} / \,\mathrm{ker}\pi _{w}$ 得到
+
+$$M = \frac{Ru_{1}\oplus Ru_{2}\oplus \dots \oplus Ru_{m}\oplus R^{r}}{\braket{ a_{1}} u_{1}\oplus \braket{ a_{2}} u_{2}\oplus \dots \oplus \braket{ a_{m}} u_{m}}\cong \frac{R}{\braket{ a_{1}}} \oplus \dots \oplus \frac{R}{\braket{ a_{m}} }\oplus R^{r}$$
+
+
+证明:考虑映射 $\sigma$
+$$w = w_{1}+\dots+w_{n} \mapsto ([w_{1}], \dots,[w_{m}], w_{m+1},\dots,w_{n})$$
+容易验证 $\mathrm{ker}\sigma= \braket{ a_{1}} u_{1}\oplus \braket{ a_{2}} u_{2}\oplus \dots \oplus \braket{ a_{m}} u_{m}$ .
+
+
+\end{thm}
+
+
+\begin{thm}
+    环 $R$中有一组互素的理想 $a_1, \ldots ,a_{m} \subseteq R$,则有
+    \[
+    a_1\cdot a_2 \cdots a_{m} = a_1 \cap a_2\cap \cdots\cap a_{m}
+    \]
+    并有同构
+    \[
+    R / a_1\cdot a_2\cdots a_{m} \cong \frac{R}{a_1} \oplus \cdots \oplus  \frac{R}{a_{m}}
+    \]
+\end{thm}
+\begin{proof}
+    映射 
+    \[
+    R \to \frac{R}{a_1} \oplus \cdots \oplus  \frac{R}{a_{m}} , \ x \mapsto ([x]_{a_1},[x]_{a_2}, \ldots ,[x]_{a_{m}})
+    \]
+    显然其核为 $ a_1\cdot a_2\cdots a_{m}$,从而由定理1得证.
+\end{proof}
+
+应用中国剩余定理, 通过对 $a_{i} = up_1^{l_{1}}\cdots p^{l_{k}}_{k}$的分解(其中 $p _{i}$是互素的理想),从而我们可以对 $\frac{R}{\braket{a_i}}$进一步分解.即
+\[
+R / p_1^{l_{1}}\cdots p^{l_{k}}_{k} \cong \frac{R}{p_1^{l_1}}\oplus \cdots \oplus \frac{R}{p_{k}^{l_{k}}}
+\]
+\vspace*{3em}
+
+
+接下来我们将上述结构推广到 $n$ 维线性空间中, 从而得到结论: 每个复矩阵 $A$ 都相似于它的 Jordan 标准型.
+
+对数域 $\mathbb{K}$ 上的有限维线性空间 $V$ 上的一个线性映射 $\psi$, 我们定义数乘映射
+$$\mathbb{K}[x]\times V \to  V, \ \ (x,v) \mapsto \psi(v)$$
+从而对 $a \in \mathbb{K}[x]$, 
+$$a \cdot v = (a_{0} +a_{1}\psi+\dots+a_{n}\psi^{n})(v)$$
+这样的数乘是可交换的, 通过如此定义, 给定一个线性空间 $V$ 上的线性映射, 我们就可以将其视作一个 $\mathbb{K}[x]$ -模 $V_{\psi}$,  其上的子模就是 $\psi$不变子空间.我们知道这样的模的结构:  $V$ 的一个基 $(e_{1},\dots,e_{n})$ 在 $\mathbb{K}[x]$ 上生成 $V_{\psi}$, 从而由初等因子分解, 
+$$V \cong \frac{\mathbb{K}[x]}{p_{1}^{m_{1}}} \oplus \dots \oplus \frac{\mathbb{K}[x]}{p_{k}^{m_{k}}}\oplus \mathbb{K}[x]^{r}$$
+由于 $\mathbb{K}[x]^{r}$ 视为 $\mathbb{K}$ 上的线性空间是无限维的, 从而 $r = 0$. 我们考虑 $\mathbb{K} = \mathbb{C}$的特殊情况,其上的素因子只能是一次多项式,从而得到
+\[
+V \cong \frac{\mathbb{K}[x]}{(\lambda-\lambda_1)^{m_{11}}} \oplus \frac{\mathbb{K}[x]}{(\lambda-\lambda_1)^{m_{12}}} \oplus \dots\frac{\mathbb{K}[x]}{(\lambda-\lambda_1)^{m_{1t_{1}}}}  \oplus \cdots\frac{\mathbb{K}[x]}{(\lambda-\lambda_{s})^{m_{st_{s}}}}
+\]
+
+我们先说明这样的分解在模同构的意义下是唯一的.我们考虑特定的 $\lambda_{s}$,将指数按大小排列,由
+\[
+(\lambda - \lambda_{s})^{j}M_1 \cong (\lambda - \lambda_{s})^{j}M_2, j\in \mathbb{N}
+\]
+从而如果某一项不等,则 $j$在下降的过程中存在维数不等情况,使得与同构矛盾.
+
+
+ 现在设$\varphi,\psi$是两个 $V$上的线性变换, 对应矩阵 $A,B$, 其分别诱导线性空间的模如果同构,即同构映射 $U$需要适合数乘,
+\[
+U(x_{a}v) = x_{b}(Uv) 
+\]
+得到 $ U(Av) = B(Uv)$
+得到 $B = UAU^{-1}$,从而 $A,B$相似.反之亦然. 由此, 我们得到此前的分解给出线性映射相似类的刻画.
+
+由线性代数的知识,以上的 $\lambda_{i}$就是 $\psi$的所有特征值,最后我们得到Jordan标准型.考虑子模($\psi$不变子空间),
+\[
+    \frac{\mathbb{K}[\lambda]}{(\lambda-\lambda_t)^{m_{t}}}
+\]
+自然有模中的基 $(\lambda-\lambda_t)^{m_{t-1}}, \ldots ,\lambda-\lambda_{t}, 1$,对应着线性空间中的某些向量构成的基 $e_{m_{t}-1}, \ldots ,e_{1}$.由
+\[
+\lambda((\lambda-\lambda_t)^{m_{t-1}}, \ldots ,\lambda-\lambda_{t}, 1) = ((\lambda-\lambda_t)^{m_{t-1}}, \ldots ,\lambda-\lambda_{t}, 1)\begin{pmatrix} \lambda_{t} & 1 &  &  \\  & \lambda_{t} & \ddots &  \\  &  &  \ddots&  1\\  &  &  & \lambda_{t} \\\end{pmatrix}
+\]
+这里注意到 $\lambda (\lambda-\lambda_t)^{m_{t}-1} = (\lambda-\lambda_{t})^{m_{t}} +\lambda_{t} (\lambda- \lambda_t)^{m_{t-1}} $, 前一项在该子模中被模掉了.即 $\lambda (\lambda-\lambda_t)^{m_{t}-1} = \lambda_{t} (\lambda- \lambda_t)^{m_{t-1}}$
+
+
+由此可知
+\[
+\psi(e_{m_{t}-1}, \ldots ,e_{1})=(e_{m_{t}-1}, \ldots ,e_{1})\begin{pmatrix} \lambda_{t} & 1 &  &  \\  & \lambda_{t} & \ddots &  \\  &  &  \ddots&  1\\  &  &  & \lambda_{t} \\\end{pmatrix}
+\]
+按此将所有子模的基合为 $V_{\psi}$的基后得到Jordan标准型
+\[
+\begin{pmatrix} J_{m_1}(\lambda_1) &  &  &  \\  &  J_{m_2}(\lambda_2)&  &  \\  &  & \ddots &  \\  &  &  &  J_{m_k}(\lambda_k)\\\end{pmatrix}
+\]
+此标准型在相似关系下的不变.
+\newpage
+
+
+
+Singular的linalg.lib中有计算Jordan标准型的函数,
+
+\begin{lstlisting}
+> LIB"linalg.lib";
+> ring R = (complex,2),x,dp;
+> matrix A[3][3] = 3,2,1,0,2,1,3,2,4;
+> print(jordannf(gauss_nf(A)));
+2,0,0,
+0,3,0,
+0,1,3
+\end{lstlisting}
+
+似乎只能接受三角阵, 使用gauss\_nf.
+
+
+\end{document}
