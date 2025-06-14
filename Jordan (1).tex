@@ -50,7 +50,7 @@
 
 % 两种方式定义中文的 证明 和 解 的环境：
 % 缺点：\qedhere 命令将会失效【技术有限，暂时无法解决】
-\renewenvironment{proof}{\par\textbf{证明.}\;}{\qed\par} %该行的具体作用是什么
+\renewenvironment{proof}{\par\textbf{证明.}\;}{\qed\par} %该行的具体作用是什么 % Re: 这是网上抄来的模板，这个就是想搞一个证明环节，然后因为未知原因 \qedhere用不了，所以就手动加了\qed\par分段。我们写班车肯定不用这个模板，我比较建议用模块化的，分章节的模板，我过段时间找一个，或者你已经有了也行。
 \newenvironment{solution}{\par{\textbf{解.}}\;}{\qed\par}
 
 % 缺点：\bf 是过时命令，可以用 textb f等替代，但编译会有关于字体的警告，不过不影响使用【技术有限，暂时无法解决】
@@ -85,7 +85,7 @@
 \date{November 2023}
 \usepackage{titlesec} 
 \usepackage{graphicx}
-\usepackage{float} %84-88有何具体用处，为什么在这个位置
+\usepackage{float} %84-88有何具体用处，为什么在这个位置  % Re: 没有用处，删除遗留。三个包是之后加的，用来图片排版，放前面最好。虽然刚看到前面有一个重复的了。
 
 \title{\textbf{Jordan标准型}}
 \author{程笛}
